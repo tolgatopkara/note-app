@@ -6,13 +6,14 @@ import { RouterModule } from '@angular/router';
   standalone : true,
   template : `
   <router-outlet></router-outlet>
-  <h3>Hello Angular</h3>
   `,
-  styles : [  ],
-  imports : [ RouterModule],
+  imports : [ RouterModule , ],
   providers: [ ]
 })
-export class AppComponent {
+export default class AppComponent {
   title = 'note-app';
+
+
+
 
 }
