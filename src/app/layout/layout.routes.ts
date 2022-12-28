@@ -1,15 +1,26 @@
 import { Routes } from "@angular/router";
-import { NoteDetailsComponent } from "../note-details/note-details.component";
-import { NotesListComponent } from '../pages/notes-list/notes-list.component';
 export const routes: Routes = [
+  // {
+  //   path: '**',
+  //   redirectTo: 'notes'
+  // },
   {
     path: '',
-    component : NotesListComponent,
-    // loadComponent: () => import('../pages/notes-list/notes-list.component').then(m => m.NotesListComponent)
+    redirectTo: 'notes',
+    pathMatch: 'full'
+  },
+  {
+    path: 'notes',
+    loadComponent: () => import('../pages/notes-list/notes-list.component').then(m => m.NotesListComponent)
+  },
+
+  {
+    path: 'notes/new',
+    loadComponent: () => import('../pages/note-details/note-details.component').then(m => m.NoteDetailsComponent),
   },
   {
     path :'note/:id',
-    component : NoteDetailsComponent,
+    loadComponent: () => import('../pages/note-details/note-details.component').then(m => m.NoteDetailsComponent),
   }
 
 

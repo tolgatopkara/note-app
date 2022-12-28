@@ -1,0 +1,56 @@
+<div class="m-auto">
+  <br />
+  <form #noteForm="ngForm" (ngSubmit)="onSubmit(noteForm)" class="mt-12">
+    <p class="text-gray-900 font-bold text-lg mb-2">Title</p>
+    <div class="relative">
+      <input
+        required
+        name="title"
+        [(ngModel)]="note.title"
+        id="floating_filled"
+        type="text"
+        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-sky-700 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        placeholder=" "
+      />
+      <label
+        for="floating_filled"
+        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-zinc-50 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+        >Floating outlined</label
+      >
+    </div>
+    <br />
+    <p class="text-gray-900 font-bold text-lg mb-2">Your Note</p>
+
+    <div class="relative">
+      <textarea
+        name="content"
+        [(ngModel)]="note.content"
+        type="text"
+        id="floating_filled2"
+        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-2 border-sky-700 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        placeholder=" "
+      ></textarea>
+      <label
+        for="floating_filled2"
+        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-zinc-50 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-6 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+        >Floating outlined</label
+      >
+    </div>
+
+    <div class="flex flex-row-reverse">
+      <button
+        [disabled]="!noteForm.valid"
+        class="basis-2/12 m-2 bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded"
+        type="submit"
+      >
+        Save
+      </button>
+      <button
+        class="basis-2/12 m-2 bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded"
+        type="button"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
