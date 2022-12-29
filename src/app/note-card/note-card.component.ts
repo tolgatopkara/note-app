@@ -4,7 +4,7 @@ import { Component, AfterViewInit, ViewChild, ElementRef, Renderer2, Input } fro
 @Component({
   selector: 'app-note-card',
   template : `
-  <div  class="group h-36 relative overflow-hidden px-8 pt-4 	 bg-white   rounded-xl shadow-sm shadow-slate-500 hover:cursor-pointer hover:shadow-sm hover:shadow-slate-400 hover:scale-105   transition-all duration-300 ease-in-out">
+  <div  class="mb-4 mx-8 px-8 pt-4  group h-36 relative overflow-hidden 	 bg-white   rounded-xl shadow-sm shadow-slate-500 hover:cursor-pointer hover:shadow-sm hover:shadow-slate-400 hover:scale-105   transition-all duration-300 ease-in-out">
     <p class="text-2xl  font-bold text-purple-300   ">{{title}}</p>
     <div #contentText>
       <p   class="text-gray-900 "> {{content}}</p>
