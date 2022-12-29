@@ -10,8 +10,14 @@ import {  RouterModule } from '@angular/router';
   standalone : true,
   selector: 'app-notes-list',
   template: `<div class="mt-20 mb-24">
-  <div >
-    <app-note-card *ngFor="let note of notes" [title]="note.title" [content]="note.content"  class="  mb-6"></app-note-card>
+  <div>
+    <app-note-card
+        *ngFor="let note of notes; index as i"
+        link="/note/{{i}}"
+        (deleteEvent)= "deleteNote(i)"
+        [title]="note.title"
+        [content]="note.content"
+        class="mb-6"></app-note-card>
     <button routerLink="/notes/new" class=" h-16 text-xl  bg-gradient-to-r from-green-400 to-blue-500 rounded-md  fixed bottom-0 w-144 shadow-md shadow-purple-600">
    Add
   </button>
@@ -32,6 +38,12 @@ export class NotesListComponent implements OnInit {
   ngOnInit(): void {
     // we need to get the notes from the service
    this.notes= this.notesService.getAll();
+  }
+
+  deleteNote(id:number){
+    this.notesService.delete(id);
+    return this.notes = this.notesService.getAll();
+
   }
 
 }
