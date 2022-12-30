@@ -1,4 +1,7 @@
 # NoteApp
+This is a note-app project based on Devstackr's youtube video.
+Project converted to Angular 15 and Standalone Components
+TailwindCSS used instead of BulmaCSS
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
 
