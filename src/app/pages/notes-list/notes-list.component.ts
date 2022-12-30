@@ -145,7 +145,7 @@ export class NotesListComponent implements OnInit {
     terms = this.removeDuplicates(terms);
     // compile all relevant notes into the 'allResults' array
     terms.forEach(term => {
-      let results: Note[] = this.relevantNotes(term);
+      const results: Note[] = this.relevantNotes(term);
       // append results to the allResults array
       allResults = [...allResults, ...results];
     });
@@ -154,12 +154,14 @@ export class NotesListComponent implements OnInit {
     // because a particular note can be the result of multiple search terms
     // but we don't want to show the user the same note multiple times on the UI
     // so we first must remove any duplicates
-    let uniqueResults = this.removeDuplicates(allResults);
+    const uniqueResults = this.removeDuplicates(allResults);
     this.filteredNotes = uniqueResults;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   removeDuplicates(arr: Array<any>): Array<any> {
-    let uniqueResults: Set<any> = new Set<any>();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const uniqueResults: Set<any> = new Set<any>();
     // loop through the input array and add the items to the set
     arr.forEach(e => uniqueResults.add(e));
     return Array.from(uniqueResults);
@@ -167,7 +169,7 @@ export class NotesListComponent implements OnInit {
 
   relevantNotes(query :string) : Array<Note> {
     query = query.toLowerCase().trim();
-    let relevantNotes = this.notes.filter(note => {
+    const relevantNotes = this.notes.filter(note => {
       if(note.title && note.title.toLowerCase().includes(query)) {
         return true;
       }
