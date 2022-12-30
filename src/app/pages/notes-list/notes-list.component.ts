@@ -4,13 +4,13 @@ import { Note } from '../../shared/note.model';
 import { NotesService } from '../../shared/notes.service';
 import { NgFor, NgForOf } from '@angular/common';
 import {  RouterModule } from '@angular/router';
-import { animate, style, transition, trigger } from '@angular/animations';
+import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 
 
 @Component({
   standalone : true,
   selector: 'app-notes-list',
-  template: `<div class="mt-20 mb-24">
+  template: `<div [@listAnim] class="mt-20 mb-24">
     <app-note-card
         *ngFor="let note of notes; index as i"
         [@itemAnim]
@@ -82,6 +82,21 @@ import { animate, style, transition, trigger } from '@angular/animations';
       ])
 
     ]),
+    trigger('listAnim', [
+      transition('* => *', [
+        // each time the binding value changes
+        query(':enter', [
+          style({
+            opacity: 0,
+            height: 0
+          }),
+          stagger(100, [
+            animate('0.2s ease')
+          ]),
+        ],
+          { optional: true })
+      ])
+    ])
   ],
 })
 export class NotesListComponent implements OnInit {
