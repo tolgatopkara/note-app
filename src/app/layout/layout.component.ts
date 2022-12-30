@@ -7,7 +7,7 @@ import {  RouterModule } from '@angular/router';
     standalone: true,
     template: `
   <app-header></app-header>
-  <div class="bg-zinc-50 container mx-auto  w-144  	 h-full  overflow-hidden ">
+  <div class="bg-zinc-50 container mx-auto  w-144  	 h-220  overflow-hidden ">
   <router-outlet></router-outlet>
   </div>
   `,
