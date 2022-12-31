@@ -3,7 +3,7 @@ import { NoteCardComponent } from '../../note-card/note-card.component';
 import { Note } from '../../shared/note.model';
 import { NotesService } from '../../shared/notes.service';
 import { NgFor, NgForOf } from '@angular/common';
-import {  RouterModule } from '@angular/router';
+import {  Router, RouterModule } from '@angular/router';
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 
 
@@ -91,7 +91,7 @@ export class NotesListComponent implements OnInit {
   @ViewChild ('filterInput') filterInputElRef! : ElementRef<HTMLInputElement>;
 
 
-  constructor(private notesService : NotesService) {
+  constructor(private notesService : NotesService,private router: Router) {
     console.log("NotesListComponent constructor");
   }
   ngOnInit(): void {
@@ -103,15 +103,17 @@ export class NotesListComponent implements OnInit {
 
   deleteNote(note : Note){
     const noteId = this.notesService.getId(note);
-    this.notesService.delete(noteId);
-    this.filter(this.filterInputElRef.nativeElement.value);
-    return this.notes = this.notesService.getAll();
-  }
+    console.log(`generateNoteUrl noteId = ${noteId}`);
+
+    return this.router.createUrlTree(['note', noteId]).toString();
+    }
 
   generateNoteUrl(note : Note){
     const noteId = this.notesService.getId(note);
-    return noteId;
-  }
+    console.log(`generateNoteUrl noteId = ${noteId}`);
+
+    return this.router.createUrlTree(['note', noteId]).toString();
+      }
 
 
   filter(query:string){
