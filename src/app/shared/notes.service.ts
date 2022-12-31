@@ -8,6 +8,16 @@ export class NotesService {
 
   notes: Note[] = new Array<Note>();
 
+  constructor() {
+    const storedNotes = localStorage.getItem('notes');
+    if (storedNotes) {
+      this.notes =  JSON.parse(storedNotes);
+    }
+
+  }
+
+
+
   getAll() {
     return this.notes;
   }
@@ -23,6 +33,8 @@ export class NotesService {
   add(note: Note) {
     const newLength = this.notes.push(note);
     const index = newLength - 1;
+    // Store the updated notes array in local storage
+    localStorage.setItem('notes', JSON.stringify(this.notes));
     return index;
   }
 
@@ -30,10 +42,16 @@ export class NotesService {
     const note = this.notes[id];
     note.title = title;
     note.content = content;
+    // Store the updated notes array in local storage
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+
   }
 
   delete(id: number) {
     this.notes.splice(id, 1);
+    // Store the updated notes array in local storage
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+
   }
 
 }

@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-note-card',
   template : `
-  <div  class="mb-4 mx-8 px-8 pt-4  group h-36 relative overflow-hidden 	 bg-white   rounded-xl shadow-sm shadow-slate-500 hover:cursor-pointer hover:shadow-sm hover:shadow-slate-400 hover:scale-105   transition-all duration-300 ease-in-out">
+  <div  class="mb-4 mx-8 px-8 pt-4  group h-36 relative  	 bg-white   rounded-xl shadow-sm shadow-slate-500 hover:cursor-pointer hover:shadow-sm hover:shadow-slate-400 hover:scale-105   transition-all duration-300 ease-in-out">
     <a  [routerLink]="link">
     <p class="text-2xl  font-bold text-purple-300   ">{{title}}</p>
     <div #contentText>

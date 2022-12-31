@@ -6,7 +6,7 @@ import {  RouterModule } from '@angular/router';
     selector: 'app-layout',
     standalone: true,
     template: `
-    <div class="overflow-auto">
+    <div>
     <app-header></app-header>
   <div class="bg-white container mx-auto  w-144  	 h-full  ">
   <router-outlet></router-outlet>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NoteCardComponent } from '../../note-card/note-card.component';
 import { Note } from '../../shared/note.model';
 import { NotesService } from '../../shared/notes.service';
@@ -10,39 +10,7 @@ import { animate, query, stagger, style, transition, trigger } from '@angular/an
 @Component({
   standalone : true,
   selector: 'app-notes-list',
-  template: `<div [@listAnim] class="mt-20 mb-24">
-<form>
-    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only ">Search</label>
-    <div class="relative">
-        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        </div>
-        <input
-        class="input"
-        type="text"
-        placeholder="Search Mockups, Logos..."
-        (keyup)="filter($any($event.target).value)"
-         class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Mockups, Logos..." required>
-        <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 ">Search</button>
-    </div>
-</form>
-
-
-    <app-note-card
-        *ngFor="let note of filteredNotes; index as i"
-        [@itemAnim]
-        link="/note/{{i}}"
-        (deleteEvent)= "deleteNote(i)"
-        [title]="note.title"
-        [content]="note.content"
-        class="mb-6 block"></app-note-card>
-    <button routerLink="/notes/new" class=" h-16 text-xl  bg-gradient-to-r from-green-400 to-blue-500 rounded-md  fixed bottom-0 w-144 shadow-md shadow-purple-600">
-   Add
-  </button>
-
-
-  </div>
-   `,
+  templateUrl: './notes-list.component.html',
   imports : [  NoteCardComponent, NgFor , NgForOf, RouterModule, ],
   animations: [
     trigger('itemAnim', [
@@ -120,6 +88,8 @@ export class NotesListComponent implements OnInit {
   notes :Note[] = new Array<Note>();
   filteredNotes :Note[] = new Array<Note>();
 
+  @ViewChild ('filterInput') filterInputElRef! : ElementRef<HTMLInputElement>;
+
 
   constructor(private notesService : NotesService) {
     console.log("NotesListComponent constructor");
@@ -127,14 +97,22 @@ export class NotesListComponent implements OnInit {
   ngOnInit(): void {
     // we need to get the notes from the service
     this.notes= this.notesService.getAll();
-    this.filteredNotes = this.notesService.getAll();
-    // this.filter('');
+    this.filter('');
+    // this.filteredNotes = this.notesService.getAll();
   }
 
-  deleteNote(id:number){
-    this.notesService.delete(id);
+  deleteNote(note : Note){
+    const noteId = this.notesService.getId(note);
+    this.notesService.delete(noteId);
+    this.filter(this.filterInputElRef.nativeElement.value);
     return this.notes = this.notesService.getAll();
   }
+
+  generateNoteUrl(note : Note){
+    const noteId = this.notesService.getId(note);
+    return noteId;
+  }
+
 
   filter(query:string){
     query = query.toLowerCase().trim();
@@ -156,6 +134,9 @@ export class NotesListComponent implements OnInit {
     // so we first must remove any duplicates
     const uniqueResults = this.removeDuplicates(allResults);
     this.filteredNotes = uniqueResults;
+
+    // now sort by relevancy
+    this.sortByRelevancy(allResults);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -182,5 +163,30 @@ export class NotesListComponent implements OnInit {
   }
 
 
+  sortByRelevancy(searchResults: Note[]){
+
+    // this method will calculate the relevancy of a note based on the number of times it appears in the search results
+    const noteCountObj :{ [noteId: string]: number } = {}; // format - key: value => NoteId: int (Note Object Id)
+
+    searchResults.forEach(note => {
+      const noteId = this.notesService.getId(note); // get the note id
+      if(noteCountObj[noteId]){
+        noteCountObj[noteId] += 1;
+      }
+      else{
+        noteCountObj[noteId] = 1;
+      }
+    });
+
+    this.filteredNotes = this.filteredNotes.sort((a: Note, b: Note) => {
+      const aId = this.notesService.getId(a);
+      const bId = this.notesService.getId(b);
+
+      const aCount = noteCountObj[aId];
+      const bCount = noteCountObj[bId];
+
+      return bCount - aCount;
+    });
+  }
 
 }
