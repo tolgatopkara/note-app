@@ -98,14 +98,12 @@ export class NotesListComponent implements OnInit {
     // we need to get the notes from the service
     this.notes= this.notesService.getAll();
     this.filter('');
-    // this.filteredNotes = this.notesService.getAll();
   }
 
   deleteNote(note : Note){
     const noteId = this.notesService.getId(note);
-    console.log(`generateNoteUrl noteId = ${noteId}`);
-
-    return this.router.createUrlTree(['note', noteId]).toString();
+    this.notesService.delete(noteId);
+    this.filter(this.filterInputElRef.nativeElement.value);
     }
 
   generateNoteUrl(note : Note){
